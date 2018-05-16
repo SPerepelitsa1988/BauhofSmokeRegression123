@@ -15,13 +15,19 @@ public class BasePage {
     private WebElement calculatorButton;
     @FindBy(xpath = "/html/body/div[1]/div[1]/span/nav/div[4]/h3")
     private WebElement summaryButton;
+    @FindBy(xpath = "/html/body/div[1]/div[1]/span/nav/div[1]/ul/li[2]")
+    private WebElement ENGButton;
+    @FindBy (xpath = "/html/body/div[1]/div[1]/span/nav/div[1]/ul/li[1]")
+    private WebElement ESTButton;
+    @FindBy (xpath = "/html/body/div[1]/div[1]/span/nav/div[1]/ul/li[3]")
+    private WebElement RUSButton;
 
     public BasePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
-    protected void type (WebElement inputField, String value) {
+    protected void type(WebElement inputField, String value) {
         inputField.click();
         inputField.clear();
         inputField.sendKeys(value);
@@ -31,9 +37,21 @@ public class BasePage {
         button.click();
     }
 
-    public VisualizerPage clickByVisualizerButton(){
+    public void clickByVisualizerButton() {
         visualiserButton.click();
-        return new VisualizerPage(driver);
     }
 
+    public WebElement getVisualizerButton() {
+        return visualiserButton;
+    }
+
+    public void clickByESTButton() {
+        ESTButton.click();
+    }
+    public void clickByENGButton() {
+        ENGButton.click();
+    }
+    public void clickByRUSButton() {
+        RUSButton.click();
+    }
 }

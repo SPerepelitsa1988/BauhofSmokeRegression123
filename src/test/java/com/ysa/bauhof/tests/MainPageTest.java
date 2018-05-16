@@ -1,37 +1,51 @@
 package com.ysa.bauhof.tests;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import com.ysa.bauhof.appmanager.page.BasePage;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 
 public class MainPageTest extends BaseTest {
-    public static ChromeDriver driver;
-    public static BasePage basePage;
+    private static WebDriver driver;
+    private static BasePage basePage;
+
+    public static BasePage getBasePage() {
+        return basePage;
+    }
 
 
     @BeforeClass
     public void preparePreconditions() {
-        System.setProperty("webdriver.chrome.driver", "C:/Program Files/Selenium/chromedriver.exe");
-        driver = new ChromeDriver();
         basePage = new BasePage(driver);
-        driver.manage().window().maximize();
-        driver.get("http://toadisainer.bauhof.ee/");
     }
-    @Test
-    public void findAllElementsOnThePage () {
+    @Test(priority = 1)
+    public void selectLanguage(){
+        basePage.clickByENGButton();
+        Assert.assertEquals(basePage.getVisualizerButton().getText(),"Visualizer");
+    }
+
+    @Test (priority = 2)
+    public void findAllElementsOnThePage() {
 
         String title = driver.getTitle();
         Assert.assertEquals(driver.getTitle(), ("Bauhof"));
     }
-    @AfterClass
-    public static void close () {
-        driver.quit();
+
+    @Test (priority = 3)
+    public void FindButtonByName() {
+        Assert.assertEquals(basePage.getVisualizerButton().getText(),"Visualizer");
     }
+
+    @Test (priority = 4)
+    public void VisualizerPage(){
+        basePage.clickByVisualizerButton();
+        String VisualizerPageSelectNewRoomSceneText = driver.getPageSource();
+        boolean isTheTextPresent = driver.getPageSource().contains("New Room Scene");
+        Assert.assertTrue(isTheTextPresent);
+    }
+
 
 
 }
